@@ -47,7 +47,7 @@ brainly-frontend/
 │   │-- config.ts
 │   └-- main.tsx
 │-- public/
-|   |__ vit.svg
+|   |__ vite.svg
 |-- index.html
 │-- package.json
 |-- package-lock.json
