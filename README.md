@@ -1,6 +1,6 @@
 # Brainly Frontend
 
-This is the frontend for the Brainly project, built using React and TypeScript.
+This is the frontend for the Brainly project, built using React and TypeScript.The frontend provides an intuitive and user-friendly interface for interacting with the Brainly platform, ensuring smooth navigation and seamless communication with the backend API.
 
 ## Prerequisites
 Make sure you have the following installed on your system:
