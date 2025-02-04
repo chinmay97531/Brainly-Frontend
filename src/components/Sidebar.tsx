@@ -13,7 +13,7 @@ export function Sidebar() {
     const [open, setClosed] = useState(false);
 
     function signOut() {
-        navigate("/signin");
+        navigate("/");
         localStorage.removeItem("token");
     }
 
