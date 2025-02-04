@@ -22,7 +22,7 @@ Follow these steps to download and run the Brainly frontend:
    - Set the backend API URL:
    
      ```ts
-     export const BACKEND_URL = "http://your-backend-url.com/";
+     export const BACKEND_URL = "http://your-backend-url.com";
      ```
 
 3. **Install Dependencies**
