@@ -9,18 +9,24 @@ interface CardProps {
   link: string;
   type: "twitter" | "youtube";
   contentId: string;
+  isSharedView?: boolean;
+  onDelete?: () => void;
 }
 
-export function Card({ title, link, type, contentId }: CardProps) {
+export function Card({ title, link, type, contentId, isSharedView = false, onDelete }: CardProps) {
 
   async function deleteItem() {
-      try{
+      try {
         await axios.delete(`${BACKEND_URL}/api/v1/content`, {
           headers: {
             token: localStorage.getItem("token"),
           },
           data: {contentId},
-        })
+        });
+        // Call refresh callback if provided
+        if (onDelete) {
+          onDelete();
+        }
       } catch(error) {
         console.error("Failed to delete the item:", error);
       }
@@ -37,13 +43,15 @@ export function Card({ title, link, type, contentId }: CardProps) {
         </div>
         <div className="flex items-center text-[#787d84]">
           <div className="pr-4">
-            <a href={link} target="_blank">
+            <a href={link} target="_blank" rel="noopener noreferrer">
               <ShareIcon size="md" />
             </a>
           </div>
-          <div onClick={deleteItem} className="cursor-pointer">
-            <DeleteIcon size="md" />
-          </div>
+          {!isSharedView && (
+            <div onClick={deleteItem} className="cursor-pointer">
+              <DeleteIcon size="md" />
+            </div>
+          )}
         </div>
       </div>
 
