@@ -12,6 +12,7 @@ dist
 dist-ssr
 ./src/config.ts
 *.local
+./DEPLOYMENT.md
 
 # Editor directories and files
 .vscode/*
