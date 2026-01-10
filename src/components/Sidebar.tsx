@@ -5,12 +5,10 @@ import { SignOutIcon } from "../icons/signout";
 import { TweetIcon } from "../icons/tweet";
 import { YoutubeIcon } from "../icons/youtube";
 import { SidebarItem } from "./SidebarItem";
-import { useState } from "react";
 
 export function Sidebar() {
 
     const navigate = useNavigate();
-    const [open, setClosed] = useState(false);
 
     function signOut() {
         navigate("/");
