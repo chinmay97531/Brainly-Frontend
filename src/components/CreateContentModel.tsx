@@ -51,7 +51,9 @@ export function CreateContentModel({ open, onClose }: CreateContentModelProps) {
                   </div>
                 </div>
                 <div>
+                  <div className="h-3"></div>
                   <Input reference={titleRef} placeholder={"Title"} />
+                  <div className="h-2"></div>
                   <Input reference={linkRef} placeholder={"Link"} />
                   <div className="flex justify-center items-center">
                     <h1>Type: </h1>
