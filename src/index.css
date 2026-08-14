@@ -1,1 +1,124 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-hand: "Caveat", cursive;
+  --color-brand: #c45c26;
+  --color-brand-dark: #9a4318;
+  --color-ink: #1c1917;
+  --color-paper: #f3eee4;
+  --color-cream: #fffcf6;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #f3eee4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.notebook-lines {
+  background-color: #efe8da;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 27px,
+      rgba(196, 92, 38, 0.08) 27px,
+      rgba(196, 92, 38, 0.08) 28px
+    ),
+    radial-gradient(rgba(28, 25, 23, 0.035) 0.6px, transparent 0.6px);
+  background-size: auto, 18px 18px;
+}
+
+.paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
+}
+
+.hand-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' fill='none'%3E%3Cpath d='M2 8c18-4 38 3 58-1 22-4 38 2 58 1' stroke='%23C45C26' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 10px;
+  padding-bottom: 2px;
+}
+
+.tiptap-editor p.is-editor-empty:first-child::before {
+  color: #a8a29e;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap-editor h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.7em 0 0.35em;
+}
+
+.tiptap-editor h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0.6em 0 0.3em;
+}
+
+.tiptap-editor h3 {
+  font-size: 1.1rem;
+  font-weight: 650;
+  margin: 0.5em 0 0.25em;
+}
+
+.tiptap-editor h4 {
+  font-size: 1rem;
+  font-weight: 650;
+  margin: 0.45em 0 0.2em;
+}
+
+.tiptap-editor h5,
+.tiptap-editor h6 {
+  font-size: 0.9rem;
+  font-weight: 650;
+  margin: 0.4em 0 0.2em;
+}
+
+.tiptap-editor ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.tiptap-editor ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+
+.tiptap-editor a {
+  color: #c45c26;
+  text-decoration: underline;
+}
+
+.tiptap-editor s,
+.tiptap-editor strike {
+  text-decoration: line-through;
+}
+
+.tiptap-editor u {
+  text-decoration: underline;
+}
+
+.tiptap-editor mark {
+  border-radius: 2px;
+  padding: 0 0.12em;
+}
+
+.tiptap-editor p {
+  margin: 0.35em 0;
+}

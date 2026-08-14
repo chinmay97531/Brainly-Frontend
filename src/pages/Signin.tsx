@@ -3,44 +3,54 @@ import { Input } from "../components/Input";
 import { Button } from "../components/ui/Button";
 import { useRef, useState } from "react";
 import { BACKEND_URL } from "../config";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { AuthLayout } from "../components/AuthLayout";
+import { AuthDivider, GoogleAuthButton } from "../components/GoogleAuthButton";
+import { saveCurrentUser } from "../hooks/useUser";
 
 export function Signin() {
-
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
+  const [info, setInfo] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   async function signin() {
     try {
       setError("");
+      setInfo("");
       setLoading(true);
 
-      const username = usernameRef.current?.value;
+      const email = emailRef.current?.value;
       const password = passwordRef.current?.value;
 
-      if (!username || !password) {
+      if (!email || !password) {
         setError("Please fill in all fields");
         setLoading(false);
         return;
       }
 
       const response = await axios.post(BACKEND_URL + "/api/v1/signin", {
-        username,
-        password
+        email,
+        username: email,
+        password,
       });
 
       const jwt = response.data.token;
       localStorage.setItem("token", jwt);
+      if (response.data.user) {
+        saveCurrentUser(response.data.user);
+      }
       navigate("/dashboard");
     } catch (err) {
       setLoading(false);
       if (axios.isAxiosError(err)) {
         if (err.response) {
-          const errorMessage = err.response.data?.message || err.response.data?.error || "An error occurred. Please try again.";
+          const errorMessage =
+            err.response.data?.message ||
+            err.response.data?.error ||
+            "An error occurred. Please try again.";
           setError(errorMessage);
         } else if (err.request) {
           setError("Unable to connect to server. Please check your connection.");
@@ -61,46 +71,70 @@ export function Signin() {
   };
 
   return (
-    <div className="h-screen w-screen bg-gradient-to-br from-[#f0f4ff] to-[#e8f0fe] flex justify-center items-center px-4">
-      <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 w-full max-w-md p-8 md:p-10">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-          <p className="text-gray-600 text-sm">Sign in to your account to continue</p>
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Continue your learning journey."
+      footer={
+        <>
+          Don&apos;t have an account?{" "}
+          <Link to="/signup" className="font-semibold text-brand hover:text-brand-dark">
+            Sign up
+          </Link>
+        </>
+      }
+    >
+      <GoogleAuthButton onError={setError} />
+      <AuthDivider />
+
+      {error && (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
+          {error}
+        </div>
+      )}
+      {info && (
+        <div className="mb-4 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2.5 text-sm text-stone-700">
+          {info}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Input
+          reference={emailRef}
+          label="Email"
+          placeholder="you@college.edu"
+          type="email"
+          name="email"
+          autoComplete="email"
+        />
+        <div>
+          <Input
+            reference={passwordRef}
+            label="Password"
+            placeholder="••••••••"
+            type="password"
+            name="password"
+            autoComplete="current-password"
+          />
+          <button
+            type="button"
+            onClick={() =>
+              setInfo("Password reset isn’t available yet. Sign in with Google, or use the password you created.")
+            }
+            className="mt-2 text-[13px] font-medium text-brand hover:text-brand-dark"
+          >
+            Forgot password?
+          </button>
         </div>
 
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-800 text-sm font-medium">{error}</p>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-5 mb-6">
-            <Input reference={usernameRef} placeholder="Username" type="text" />
-            <Input reference={passwordRef} placeholder="Password" type="password" />
-          </div>
-
-          <div className="space-y-3">
-            <Button 
-              type="submit"
-              loading={loading} 
-              variant="primary" 
-              size="md" 
-              text={loading ? "Signing in..." : "Sign In"} 
-              fullWidth={true} 
-            />
-            <Button 
-              type="button"
-              onClick={() => navigate("/signup")} 
-              loading={false} 
-              variant="secondary" 
-              size="sm" 
-              text="Don't have an account? Sign up" 
-              fullWidth={true} 
-            />
-          </div>
-        </form>
-      </div>
-    </div>
+        <Button
+          type="submit"
+          loading={loading}
+          variant="primary"
+          size="md"
+          text={loading ? "Signing in" : "Sign in"}
+          fullWidth={true}
+        />
+      </form>
+    </AuthLayout>
   );
 }

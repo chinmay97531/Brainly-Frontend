@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { Card } from "../components/Card";
-import { CreateContentModel } from "../components/CreateContentModel";
+import { CreateContentModel, ContentType } from "../components/CreateContentModel";
 import { Button } from "../components/ui/Button";
 import { PlusIcon } from "../icons/plusIcon";
 import { ShareIcon } from "../icons/shareIcon";
-import { useContentYoutube } from "../hooks/useYoutube";
+import { useContentNotes } from "../hooks/useNotes";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { AppShell } from "../components/AppShell";
 
-export function DashYoutube() {
+export function DashNotes() {
   const [modelOpen, setModelOpen] = useState(false);
-  const { contents, Refresh } = useContentYoutube();
+  const { contents, Refresh } = useContentNotes();
 
   useEffect(() => {
     Refresh();
@@ -19,8 +19,8 @@ export function DashYoutube() {
 
   return (
     <AppShell
-      title="YouTube"
-      subtitle="Videos you want to come back to"
+      title="Notes"
+      subtitle="Your own words, next to everything you save"
       actions={
         <>
           <Button
@@ -28,9 +28,7 @@ export function DashYoutube() {
               try {
                 const response = await axios.post(
                   `${BACKEND_URL}/api/v1/brain/share`,
-                  {
-                    share: true,
-                  },
+                  { share: true },
                   {
                     headers: {
                       token: localStorage.getItem("token"),
@@ -78,25 +76,39 @@ export function DashYoutube() {
             onClick={() => setModelOpen(true)}
             startIcon={<PlusIcon size="md" />}
             variant="primary"
-            text="Add content"
+            text="New note"
             size="sm"
           />
         </>
       }
     >
-      <CreateContentModel open={modelOpen} onClose={() => setModelOpen(false)} />
+      <CreateContentModel
+        open={modelOpen}
+        initialType={ContentType.Note}
+        onClose={() => setModelOpen(false)}
+      />
 
       {contents.length > 0 ? (
         <div className="flex flex-wrap gap-6">
-          {contents.map(({ type, link, title, _id, folderId }) => (
-            <Card key={_id} title={title} type={type} link={link} contentId={_id} folderId={folderId} onDelete={Refresh} />
+          {contents.map(({ type, link, title, _id, body, bodyText, folderId }) => (
+            <Card
+              key={_id}
+              title={title}
+              type={type}
+              link={link}
+              contentId={_id}
+              body={body}
+              bodyText={bodyText}
+              folderId={folderId}
+              onDelete={Refresh}
+            />
           ))}
         </div>
       ) : (
-        <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white/70 px-6 text-center">
-          <p className="text-lg font-bold text-ink">No videos saved</p>
-          <p className="mt-1 max-w-sm text-sm text-slate-500">
-            Add a YouTube link and it will live here.
+        <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 bg-cream px-6 text-center">
+          <p className="text-lg font-bold text-ink">No notes yet</p>
+          <p className="mt-1 max-w-sm text-sm text-stone-500">
+            Capture lecture takeaways, quotes, and questions here.
           </p>
         </div>
       )}

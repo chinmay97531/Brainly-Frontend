@@ -1,6 +1,6 @@
-# Brainly Frontend
+# BrainBox Frontend
 
-This is the frontend for the Brainly project, built using React and TypeScript.The frontend provides an intuitive and user-friendly interface for interacting with the Brainly platform, ensuring smooth navigation and seamless communication with the backend API.
+This is the frontend for the BrainBox project, built using React and TypeScript. The frontend provides an intuitive and user-friendly interface for interacting with the BrainBox platform, ensuring smooth navigation and seamless communication with the backend API.
 
 ## Prerequisites
 Make sure you have the following installed on your system:
@@ -9,7 +9,7 @@ Make sure you have the following installed on your system:
 
 ## Installation
 
-Follow these steps to download and run the Brainly frontend:
+Follow these steps to download and run the BrainBox frontend:
 
 1. **Clone the Repository**
    ```sh

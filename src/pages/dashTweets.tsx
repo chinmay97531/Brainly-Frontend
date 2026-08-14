@@ -4,42 +4,40 @@ import { CreateContentModel } from "../components/CreateContentModel";
 import { Button } from "../components/ui/Button";
 import { PlusIcon } from "../icons/plusIcon";
 import { ShareIcon } from "../icons/shareIcon";
-import { Sidebar } from "../components/Sidebar";
 import { useContentTwitter } from "../hooks/useTweets";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { AppShell } from "../components/AppShell";
 
 export function DashTweets() {
   const [modelOpen, setModelOpen] = useState(false);
-  const {contents, Refresh} = useContentTwitter();
+  const { contents, Refresh } = useContentTwitter();
 
   useEffect(() => {
     Refresh();
-  }, [modelOpen, Refresh])
+  }, [modelOpen, Refresh]);
 
   return (
-    <div>
-      <Sidebar />
-      <div className="p-4 ml-54 min-h-screen bg-[#f8fbfb] border-solid border-[#e8ebef] border-2">
-        <CreateContentModel
-          open={modelOpen}
-          onClose={() => {
-            setModelOpen(false);
-          }}
-        />
-        <div className="flex justify-end gap-4">
+    <AppShell
+      title="Tweets"
+      subtitle="Threads and posts you've kept"
+      actions={
+        <>
           <Button
             onClick={async () => {
               try {
-                const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`, {
-                  share: true
-                }, {
-                  headers: {
-                    "token": localStorage.getItem("token")
-                  } 
-                });
+                const response = await axios.post(
+                  `${BACKEND_URL}/api/v1/brain/share`,
+                  {
+                    share: true,
+                  },
+                  {
+                    headers: {
+                      token: localStorage.getItem("token"),
+                    },
+                  }
+                );
 
-                // Handle both response formats from backend
                 let hash: string;
                 if (response.data.hash) {
                   hash = response.data.hash;
@@ -49,15 +47,12 @@ export function DashTweets() {
                   throw new Error("Unexpected response format");
                 }
 
-                // Use window.location.origin for production compatibility
                 const shareURL = `${window.location.origin}/share/${hash}`;
-                
-                // Copy to clipboard
+
                 try {
                   await navigator.clipboard.writeText(shareURL);
                   alert(`Share link copied to clipboard!\n${shareURL}`);
-                } catch (clipboardErr) {
-                  // Fallback if clipboard API fails
+                } catch {
                   alert(`Share link: ${shareURL}`);
                 }
               } catch (err) {
@@ -76,26 +71,35 @@ export function DashTweets() {
             }}
             startIcon={<ShareIcon size="md" />}
             variant="secondary"
-            text="Share Brain"
+            text="Share"
             size="sm"
           />
           <Button
-            onClick={() => {
-              setModelOpen(true);
-            }}
+            onClick={() => setModelOpen(true)}
             startIcon={<PlusIcon size="md" />}
             variant="primary"
-            text="Add Content"
+            text="Add content"
             size="sm"
           />
-        </div>
+        </>
+      }
+    >
+      <CreateContentModel open={modelOpen} onClose={() => setModelOpen(false)} />
 
-        <div className="flex flex-row flex-wrap gap-10 min-h-48 min-w-72 pt-4">
-          {contents.map(({ type, link, title, _id }) => 
-            <Card title={title} type={type} link={link} contentId={_id} />
-          )}
+      {contents.length > 0 ? (
+        <div className="flex flex-wrap gap-6">
+          {contents.map(({ type, link, title, _id, folderId }) => (
+            <Card key={_id} title={title} type={type} link={link} contentId={_id} folderId={folderId} onDelete={Refresh} />
+          ))}
         </div>
-      </div>
-    </div>
+      ) : (
+        <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white/70 px-6 text-center">
+          <p className="text-lg font-bold text-ink">No tweets saved</p>
+          <p className="mt-1 max-w-sm text-sm text-slate-500">
+            Save a tweet and it will appear in this collection.
+          </p>
+        </div>
+      )}
+    </AppShell>
   );
 }
