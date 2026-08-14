@@ -57,6 +57,23 @@ Google Cloud Console → OAuth client → **Authorized JavaScript origins**:
 
 The Google button requests `openid email profile` and posts `accessToken` to `POST /api/v1/auth/google`.
 
+Localhost can work while production fails with `origin_mismatch` if the Vercel origin is missing. In the **same** Web client as `VITE_GOOGLE_CLIENT_ID`:
+
+**Authorized JavaScript origins** (no trailing slash):
+
+- `http://localhost:5173`
+- `https://brainboxapp.vercel.app`
+
+**Authorized redirect URIs** (no trailing slash):
+
+- `http://localhost:5173`
+- `https://brainboxapp.vercel.app`
+
+Save, wait a minute, then retry in a new tab at [https://brainboxapp.vercel.app](https://brainboxapp.vercel.app). Do not add the Render URL here.
+
+Also confirm Vercel env `VITE_BACKEND_URL=https://brainly-backend-p31x.onrender.com` and that you **redeployed** after setting it. Vite inlines this at build time.
+
+
 ## Routes
 
 | Path | Page |
