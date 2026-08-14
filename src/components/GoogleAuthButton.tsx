@@ -30,7 +30,9 @@ export function GoogleAuthButton({ onError }: GoogleAuthButtonProps) {
               ? err.response.data.message
               : undefined;
           if (err.response?.status === 404) {
-            onError("Google auth is not running on the backend. Restart the BrainBox server.");
+            onError(
+              `No Google auth route at ${BACKEND_URL}. On Vercel, set VITE_BACKEND_URL to https://brainly-backend-p31x.onrender.com (no trailing slash) and redeploy.`
+            );
             return;
           }
           onError(apiMessage || "Google sign-in failed. Please try again.");

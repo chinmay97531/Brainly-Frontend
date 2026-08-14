@@ -53,7 +53,7 @@ The JWT from sign-in / Google is stored as `localStorage.token` and sent as head
 Google Cloud Console → OAuth client → **Authorized JavaScript origins**:
 
 - `http://localhost:5173`
-- your Vercel URL (`https://your-app.vercel.app`)
+- `https://brainboxapp.vercel.app`
 
 The Google button requests `openid email profile` and posts `accessToken` to `POST /api/v1/auth/google`.
 
