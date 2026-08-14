@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DocumentIcon } from "../icons/document";
 import { FolderIcon } from "../icons/folder";
@@ -35,6 +35,17 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
     onClose?.();
   }
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
   return (
     <>
       {open && (
@@ -46,12 +57,24 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
         />
       )}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-slate-200 bg-white px-4 py-6 transition-transform duration-200 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-[min(18rem,calc(100vw-3rem))] flex-col border-r border-slate-200 bg-white px-4 py-6 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(1.5rem,env(safe-area-inset-bottom))] shadow-sm transition-transform duration-200 md:w-64 xl:w-72 ${
           open ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        <Logo />
-        <nav className="mt-8 flex min-h-0 flex-1 flex-col gap-1">
+        <div className="flex items-center justify-between gap-2">
+          <Logo />
+          <button
+            type="button"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 md:hidden"
+            onClick={onClose}
+            aria-label="Close navigation"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav className="mt-8 flex min-h-0 flex-1 flex-col gap-1 xl:mt-10">
           <SidebarItem
             onClick={() => go("/dashboard")}
             title="Home"
@@ -103,7 +126,9 @@ export function Sidebar({ open = false, onClose }: SidebarProps) {
             )}
           </div>
         </nav>
-        <SidebarItem onClick={signOut} title="Sign out" icon={<SignOutIcon size="lg" />} />
+        <div className="border-t border-slate-100 pt-3">
+          <SidebarItem onClick={signOut} title="Sign out" icon={<SignOutIcon size="lg" />} />
+        </div>
       </aside>
 
       <FolderNameModal

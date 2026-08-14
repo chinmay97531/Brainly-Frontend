@@ -29,9 +29,9 @@ export function GoogleAuthButton({ onError }: GoogleAuthButtonProps) {
             typeof err.response?.data?.message === "string"
               ? err.response.data.message
               : undefined;
-          if (err.response?.status === 404) {
+          if (err.response?.status === 404 || err.response?.status === 405) {
             onError(
-              `No Google auth route at ${BACKEND_URL}. On Vercel, set VITE_BACKEND_URL to https://brainly-backend-p31x.onrender.com (no trailing slash) and redeploy.`
+              `API is not at ${BACKEND_URL}. On Vercel set VITE_BACKEND_URL to https://brainly-backend-p31x.onrender.com (not the Google client ID) and redeploy.`
             );
             return;
           }

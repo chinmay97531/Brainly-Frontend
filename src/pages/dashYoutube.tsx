@@ -73,6 +73,7 @@ export function DashYoutube() {
             variant="secondary"
             text="Share"
             size="sm"
+            hideLabelOnMobile
           />
           <Button
             onClick={() => setModelOpen(true)}
@@ -80,6 +81,7 @@ export function DashYoutube() {
             variant="primary"
             text="Add content"
             size="sm"
+            hideLabelOnMobile
           />
         </>
       }
@@ -87,13 +89,13 @@ export function DashYoutube() {
       <CreateContentModel open={modelOpen} onClose={() => setModelOpen(false)} />
 
       {contents.length > 0 ? (
-        <div className="flex flex-wrap gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4">
           {contents.map(({ type, link, title, _id, folderId }) => (
             <Card key={_id} title={title} type={type} link={link} contentId={_id} folderId={folderId} onDelete={Refresh} />
           ))}
         </div>
       ) : (
-        <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white/70 px-6 text-center">
+        <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white/70 px-6 text-center lg:min-h-[28rem]">
           <p className="text-lg font-bold text-ink">No videos saved</p>
           <p className="mt-1 max-w-sm text-sm text-slate-500">
             Add a YouTube link and it will live here.

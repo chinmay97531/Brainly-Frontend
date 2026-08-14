@@ -74,12 +74,12 @@ export function Card({
   return (
     <>
       <article
-        className={`flex w-full max-w-96 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/80 ${
+        className={`flex h-full w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/80 ${
           isNote ? "cursor-pointer" : ""
         }`}
         onClick={isNote ? () => setNoteOpen(true) : undefined}
       >
-        <div className="flex items-start justify-between gap-3 px-5 pt-5">
+        <div className="flex flex-col gap-3 px-4 pt-4 sm:flex-row sm:items-start sm:justify-between sm:gap-3 sm:px-5 sm:pt-5 lg:px-6 lg:pt-6">
           <div className="min-w-0">
             <span
               className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${
@@ -92,9 +92,9 @@ export function Card({
             >
               {isNote ? "Note" : isYoutube ? "YouTube" : "Tweet"}
             </span>
-            <h3 className="mt-2 truncate text-base font-bold text-ink">{title}</h3>
+            <h3 className="mt-2 line-clamp-2 break-words text-base font-bold text-ink lg:text-[1.05rem]">{title}</h3>
           </div>
-          <div className="flex shrink-0 items-center gap-1 text-slate-400" onClick={(e) => e.stopPropagation()}>
+          <div className="flex shrink-0 flex-wrap items-center gap-1 text-slate-400" onClick={(e) => e.stopPropagation()}>
             {!isSharedView && folders.length > 0 && (
               <>
                 <label className="sr-only" htmlFor={`move-${contentId}`}>
@@ -105,7 +105,7 @@ export function Card({
                   value={currentFolderId}
                   title="Move to folder"
                   onChange={(event) => moveItem(event.target.value)}
-                  className="max-w-28 truncate rounded-md border border-slate-200 bg-white px-1.5 py-1 text-[11px] font-medium text-slate-600"
+                  className="max-w-[9.5rem] truncate rounded-md border border-slate-200 bg-white px-1.5 py-1 text-[11px] font-medium text-slate-600"
                 >
                   <option value="">Home</option>
                   {folders.map((folder) => (
@@ -140,7 +140,7 @@ export function Card({
           </div>
         </div>
 
-        <div className="p-5 pt-4">
+        <div className="flex-1 overflow-x-auto p-4 pt-3 sm:p-5 sm:pt-4 lg:px-6 lg:pb-6">
           {isNote && (
             <p className="line-clamp-5 min-h-24 text-sm leading-6 text-stone-600">
               {preview || "Empty note"}

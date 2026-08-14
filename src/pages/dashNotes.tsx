@@ -71,6 +71,7 @@ export function DashNotes() {
             variant="secondary"
             text="Share"
             size="sm"
+            hideLabelOnMobile
           />
           <Button
             onClick={() => setModelOpen(true)}
@@ -78,6 +79,7 @@ export function DashNotes() {
             variant="primary"
             text="New note"
             size="sm"
+            hideLabelOnMobile
           />
         </>
       }
@@ -89,7 +91,7 @@ export function DashNotes() {
       />
 
       {contents.length > 0 ? (
-        <div className="flex flex-wrap gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4">
           {contents.map(({ type, link, title, _id, body, bodyText, folderId }) => (
             <Card
               key={_id}
@@ -105,7 +107,7 @@ export function DashNotes() {
           ))}
         </div>
       ) : (
-        <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 bg-cream px-6 text-center">
+        <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 bg-cream px-6 text-center lg:min-h-[28rem]">
           <p className="text-lg font-bold text-ink">No notes yet</p>
           <p className="mt-1 max-w-sm text-sm text-stone-500">
             Capture lecture takeaways, quotes, and questions here.

@@ -160,7 +160,7 @@ export function NoteEditor({
       }`}
     >
       {editable && (
-        <div className="flex flex-wrap items-center gap-0.5 border-b border-stone-200 bg-stone-50 px-2 py-1.5">
+        <div className="flex flex-wrap items-center gap-0.5 overflow-x-auto border-b border-stone-200 bg-stone-50 px-2 py-1.5">
           <IconButton
             title="Bold"
             active={editor.isActive("bold")}

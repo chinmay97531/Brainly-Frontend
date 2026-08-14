@@ -10,6 +10,7 @@ interface ButtonProps {
   fullWidth?: boolean;
   loading?: boolean;
   type?: "button" | "submit" | "reset";
+  hideLabelOnMobile?: boolean;
 }
 type Variants = "primary" | "secondary";
 
@@ -34,9 +35,12 @@ export const Button = (props: ButtonProps) => {
     <button
       type={props.type || "button"}
       onClick={props.onClick}
+      aria-label={props.hideLabelOnMobile ? props.text : undefined}
       className={`${variantStyle[props.variant]} ${defaultStyles} ${sizeStyle[props.size]} ${
         props.fullWidth ? "w-full" : ""
-      } ${props.loading ? "cursor-not-allowed" : "cursor-pointer"}`}
+      } ${props.hideLabelOnMobile ? "px-2.5 lg:px-3.5" : ""} ${
+        props.loading ? "cursor-not-allowed" : "cursor-pointer"
+      }`}
       disabled={props.loading}
     >
       {props.loading && (
@@ -47,7 +51,7 @@ export const Button = (props: ButtonProps) => {
         </span>
       )}
       {props.startIcon && !props.loading && <span className="flex items-center">{props.startIcon}</span>}
-      {props.text}
+      <span className={props.hideLabelOnMobile ? "hidden lg:inline" : ""}>{props.text}</span>
       {props.endIcon && !props.loading && <span className="flex items-center">{props.endIcon}</span>}
     </button>
   );

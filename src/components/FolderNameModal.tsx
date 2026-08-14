@@ -65,14 +65,14 @@ export function FolderNameModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-4">
       <button
         type="button"
         className="absolute inset-0 bg-ink/45 backdrop-blur-sm"
         onClick={onClose}
         aria-label="Close dialog"
       />
-      <div className="relative z-10 w-full max-w-sm rounded-2xl border border-stone-200 bg-cream p-6 shadow-xl">
+      <div className="relative z-10 w-full max-w-sm rounded-t-2xl border border-stone-200 bg-cream p-5 shadow-xl sm:rounded-2xl sm:p-6">
         <div className="mb-4 flex items-start justify-between gap-4">
           <h2 className="font-display text-xl font-semibold text-ink">{title}</h2>
           <button
